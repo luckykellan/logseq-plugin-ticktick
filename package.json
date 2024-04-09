@@ -1,6 +1,7 @@
 {
-  "name": "logseq-plugin-template-react",
-  "version": "0.0.0",
+  "name": "logseq-plugin-ticktick",
+  "version": "0.0.1",
+  "description": "A non-intrusive TickTick synchronization plugin for Logseq",
   "main": "dist/index.html",
   "scripts": {
     "dev": "vite",
@@ -9,11 +10,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@logseq/libs": "^0.0.14",
+    "@logseq/libs": "^0.0.16",
     "@types/crypto-js": "^4.2.1",
     "axios": "^1.6.5",
-    "crypto-js": "^4.2.0",
-    "moment-timezone": "^0.5.43",
+    "moment-timezone": "^0.5.44",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -41,7 +41,8 @@
     "vite-plugin-logseq": "1.1.2"
   },
   "logseq": {
-    "id": "_pengx17-logseq-template-react",
-    "icon": "./logo.svg"
+    "id": "logseq-plugin-ticktick",
+    "name": "Logseq TickTick Sync",
+    "icon": "./logo.png"
   }
 }
