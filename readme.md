@@ -20,6 +20,8 @@
 - 删除的同步需要用户在 Logseq TODO 块开头的点右键选择 Delete 才能触发;
 - 仅支持 Logseq 中格式的重复任务同步。使用 TickTick 特殊格式的重复任务，重复规则不会同步到 Logseq，但仍会保留在 TickTick 中;
 - 插件运行需要 TickTick 中至少有一个清单。
+- TickTick中的标签和清单名称中不能包含空格，否则会导致同步时丢失标签或清单。
+- TickTick中的标签和清单存在相同名称时，Logseq任务向TickTick同步会优先选择清单。
 
 ## 副作用
 
@@ -33,7 +35,7 @@
 2. 在 Logseq 中启用 `logseq-plugin-ticktick`。
 3. 在插件设置中配置TickTick / 嘀嗒清单的登录Token，并根据需要配置优先级映射和其他同步选项。  
    3.1 Token需要登录TickTick/滴答清单网页版，打开开发者工具并选择网络标签(Network)，刷新页面后随机选一个请求，复制请求头中Cookie的t字段值，直至分号。
-   ![2.jpg](assets%2F2.jpg)
+   ![2.jpg](assets/2.jpg)
 4. 开始在 Logseq 中创建和管理 TODO 任务，并看它们自动同步到 TickTick / 嘀嗒清单中。
 
 ## 注意事项

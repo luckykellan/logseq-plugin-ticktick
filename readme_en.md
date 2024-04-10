@@ -19,6 +19,8 @@
 - Synchronization of deletions requires the user to right-click the dot at the beginning of the Logseq TODO block and select Delete.
 - Only the format of repeating tasks in Logseq is supported for synchronization. Repeating tasks in TickTick with special formats will not sync their repeating rules to Logseq but will remain in TickTick.
 - The plugin requires at least one list in TickTick to operate.
+- Tags and list names in TickTick cannot contain spaces, as this will cause loss of tags or lists during synchronization.
+- When there are tags and lists with the same name in TickTick, the synchronization of tasks from Logseq to TickTick will prioritize lists.
 
 ## Side Effects
 
@@ -32,7 +34,7 @@ Please follow these steps to install and configure `logseq-plugin-ticktick`:
 2. Enable `logseq-plugin-ticktick` within Logseq.
 3. Configure the login Token for TickTick / Dida in the plugin settings, along with any necessary priority mapping and other sync options.
     - To obtain the Token, log in to the TickTick/Dida web version, open the developer tools, select the Network tab, refresh the page, randomly select a request, and copy the value of the `t` field in the Cookie from the request header, up to the semicolon.
-      ![2.jpg](assets%2F2.jpg)
+      ![2.jpg](assets/2.jpg)
 4. Start creating and managing TODO tasks in Logseq, and watch them automatically sync to TickTick / Dida.
 
 ## Notes
