@@ -1,3 +1,10 @@
+# 1.0.0 (2024-04-11)
+
+
+### Features
+
+* release ([c229fe8](https://github.com/luckykellan/logseq-plugin-ticktick/commit/c229fe8f19f98c437993a985dc16fe2a10d033d3))
+
 ## [2.1.1](https://github.com/pengx17/logseq-plugin-template-react/compare/v2.1.0...v2.1.1) (2022-03-24)
 
 
