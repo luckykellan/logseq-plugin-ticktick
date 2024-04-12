@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 import {
     commitTask,
     getAllProjects, getTask, setHostIp, setTickToken
-} from "../../logseq-plugin-ticktick/src/tick_api";
+} from "./tick_api";
 import {BlockEntity,} from "@logseq/libs/dist/LSPlugin";
 import {
     isContentTodoPrefixed,
@@ -34,7 +34,7 @@ function main() {
             preSync()
         } else {
             if (isConfigChinese) logseq.UI.showMsg('设置accessToken和taskManagerProvider后，ticktick才可正常同步', 'warning')
-            else logseq.UI.showMsg('设置accessToken和taskManagerProvider后，ticktick才可正常同步', 'warning')
+            else logseq.UI.showMsg('Please set accessToken and taskManagerProvider for TickTick sync.', 'warning')
         }
     })
     logseq.onSettingsChanged((newSettings, oldSettings) => {
@@ -299,8 +299,16 @@ async function syncTasks(tickTaskList: TickTask[]) {
 
 async function preSync() {
     console.log('同步开始---------------')
+    let toast:string,toast_success:string;
+    if(isConfigChinese){
+        toast='正在同步滴答清单，请稍等...'
+        toast_success='同步成功'
+    }else{
+        toast='Syncing TickTick, please wait...'
+        toast_success='Sync success'
+    }
     isSyncing = true
-    await logseq.UI.showMsg('正在同步滴答清单，请稍等...', 'warning', {
+    await logseq.UI.showMsg(toast, 'warning', {
         key: 'sync-ticktick',
         timeout: 10000
     })
@@ -316,7 +324,7 @@ async function preSync() {
                 console.log('同步结束---------------')
                 setTimeout(() => isSyncing = false, 300)
                 logseq.UI.closeMsg('sync-ticktick')
-                logseq.UI.showMsg('同步成功', 'success')
+                logseq.UI.showMsg(toast_success, 'success')
             })
         })
 }
