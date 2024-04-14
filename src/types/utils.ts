@@ -325,3 +325,42 @@ function rruleToSimpleFormat(rrule: string): string {
 
     return `${interval}${freqAbbreviation}`; // 返回转换后的简写形式
 }
+
+const formatMappings:Record<string,string> = {
+    "do MMM yyyy": "D MMM YYYY",
+    "do MMMM yyyy": "D MMMM YYYY",
+    "MMM do, yyyy": "MMM D, YYYY",
+    "MMMM do, yyyy": "MMMM D, YYYY",
+    "E, dd-MM-yyyy": "ddd, DD-MM-YYYY",
+    "E, dd.MM.yyyy": "ddd, DD.MM.YYYY",
+    "E, MM/dd/yyyy": "ddd, MM/DD/YYYY",
+    "E, yyyy/MM/dd": "ddd, YYYY/MM/DD",
+    "EEE, dd-MM-yyyy": "ddd, DD-MM-YYYY",
+    "EEE, dd.MM.yyyy": "ddd, DD.MM.YYYY",
+    "EEE, MM/dd/yyyy": "ddd, MM/DD/YYYY",
+    "EEE, yyyy/MM/dd": "ddd, YYYY/MM/DD",
+    "EEEE, dd-MM-yyyy": "dddd, DD-MM-YYYY",
+    "EEEE, dd.MM.yyyy": "dddd, DD.MM.YYYY",
+    "EEEE, MM/dd/yyyy": "dddd, MM/DD/YYYY",
+    "EEEE, yyyy/MM/dd": "dddd, YYYY/MM/DD",
+    "dd-MM-yyyy": "DD-MM-YYYY",
+    "MM/dd/yyyy": "MM/DD/YYYY",
+    "MM-dd-yyyy": "MM-DD-YYYY",
+    "MM_dd_yyyy": "MM/DD/YYYY",
+    "yyyy/MM/dd": "YYYY/MM/DD",
+    "yyyy-MM-dd": "YYYY-MM-DD",
+    "yyyy-MM-dd EEEE": "YYYY-MM-DD dddd",
+    "yyyy_MM_dd": "YYYY/MM/DD",
+    "yyyyMMdd": "YYYYMMDD",
+    "yyyy年MM月dd日": "YYYY年MM月DD日"
+};
+
+export function convertAndFormatDate(dateStr:string, format:string) {
+    let standardFormat = formatMappings[format] || format;
+    const tempDateStr = dateStr;
+
+    if (format.includes('_')) {
+        standardFormat = standardFormat.replace(/\//g, '_');
+    }
+    return moment.utc(tempDateStr).format(standardFormat);
+}

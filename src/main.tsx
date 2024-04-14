@@ -13,7 +13,7 @@ import {
     taskToBlockContent,
     idToProjectsKeyIndex,
     TODO_PREFIXES,
-    todoBlockStatus, setPriorityMapping
+    todoBlockStatus, setPriorityMapping, convertAndFormatDate
 } from "./types/utils"
 import {createTickRequest, TickRequest, TickTask, TickTaskDeletion} from "./types";
 import {cn_schema, en_schema} from "./settings";
@@ -192,18 +192,6 @@ async function initSettings() {
 }
 
 function initTags(data: any) {
-    // const tagPages = await logseq.DB.datascriptQuery(`
-    //   [:find ?ticktag ?name
-    //    :where
-    //    [?e :block/uuid ?id]
-    //    [?e :block/page ?p]
-    //    [?p :block/name ?name]
-    //    [?e :block/properties ?props]
-    //    [(get ?props :ticktag) ?ticktag]
-    //   ]
-    // `)
-    // const tagPagesMap: Map<string, string> = new Map(tagPages)
-
     data['tags'].forEach((item: any) => {
         tickTags.set(item.name, {
             id: item.etag,
@@ -345,7 +333,7 @@ async function upsertTaskAndChildrenConcurrently(tickTask: TickTask, siblingBloc
         if (siblingBlocks) {
             block = await appendBlock(parentTodoBlockUuid!, tickTask, false)
         } else {
-            const formattedTime = moment.utc(tickTask.createdTime).format(preferredDateFormat)
+            const formattedTime = convertAndFormatDate(tickTask.createdTime,preferredDateFormat)
             const page = await logseq.Editor.getPage(formattedTime) || (await logseq.Editor.createPage(formattedTime, '', {
                 redirect: false,
                 journal: true
