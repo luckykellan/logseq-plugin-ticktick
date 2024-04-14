@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.1.0...v1.2.0) (2024-04-14)
+
+
+### Features
+
+* 同步任务时过滤掉NOTE类型，优化日期格式化逻辑 ([d0ca061](https://github.com/luckykellan/logseq-plugin-ticktick/commit/d0ca061b6f3d0320fa55da44b47ffb5e6d4b0c11))
+
 # [1.1.0](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.0.1...v1.1.0) (2024-04-14)
 
 
