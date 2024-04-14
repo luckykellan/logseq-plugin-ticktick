@@ -69,21 +69,27 @@ export function taskToBlockContent(task: TickTask, block?: BlockEntity) {
             tags += task.tags.map(tag => ` #${tag}`).join(' ')
     }
 
-
     let scheduled = '', deadline = '', repeater, logbook
-    const formatDateTime = (date:string, timeZone:string) => {
-        const format = moment(date).tz(timeZone).format("HH:mm") === "00:00" ? "YYYY-MM-DD ddd" : "YYYY-MM-DD ddd HH:mm";
-        return moment(date).tz(timeZone).format(format);
+    const getMomentInTimeZone = (dateStr: string, timeZone: string) => moment(dateStr).tz(timeZone);
+    const formatDateTime = (date: moment.Moment) => {
+        const format = date.format("HH:mm") === "00:00" ? "YYYY-MM-DD ddd" : "YYYY-MM-DD ddd HH:mm";
+        return date.format(format);
     };
+    const startDate = getMomentInTimeZone(task.startDate, task.timeZone);
     if (task.startDate) {
-        scheduled = `\nSCHEDULED: <${formatDateTime(task.startDate,task.timeZone)}>`
+        const createTime = getMomentInTimeZone(task.createdTime, task.timeZone);
+        // 如果 task.isAllDay 为假，或者 startDate 和 createTime 不在同一天
+        if (!task.isAllDay || !startDate.isSame(createTime, 'day')) {
+            scheduled = `\nSCHEDULED: <${formatDateTime(startDate)}>`;
+        }
         if (task.dueDate && task.dueDate != task.startDate) {
-            deadline = `\nDEADLINE: <${formatDateTime(task.dueDate,task.timeZone)}>`
+            const dueDate = getMomentInTimeZone(task.dueDate, task.timeZone);
+            deadline = `\nDEADLINE: <${formatDateTime(dueDate)}>`
         }
     }
     if (task.repeatFlag && isSupportedRRULE(task.repeatFlag)) {
         repeater = rruleToSimpleFormat(task.repeatFlag)
-        scheduled = `\nSCHEDULED: <${formatDateTime(task.startDate,task.timeZone)} .+${repeater}>`
+        scheduled = `\nSCHEDULED: <${formatDateTime(startDate)} .+${repeater}>`
     }
 
     const logbookPattern = /\n:LOGBOOK:([\s\S]*?):END:/;
@@ -326,7 +332,7 @@ function rruleToSimpleFormat(rrule: string): string {
     return `${interval}${freqAbbreviation}`; // 返回转换后的简写形式
 }
 
-const formatMappings:Record<string,string> = {
+const formatMappings: Record<string, string> = {
     "do MMM yyyy": "D MMM YYYY",
     "do MMMM yyyy": "D MMMM YYYY",
     "MMM do, yyyy": "MMM D, YYYY",
@@ -355,7 +361,7 @@ const formatMappings:Record<string,string> = {
     "yyyy年MM月dd日": "YYYY年MM月DD日"
 };
 
-export function convertAndFormatDate(dateStr:string, format:string) {
+export function convertAndFormatDate(dateStr: string, format: string) {
     let standardFormat = formatMappings[format] || format;
     const tempDateStr = dateStr;
 

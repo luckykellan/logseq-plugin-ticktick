@@ -276,7 +276,7 @@ async function syncTickTaskStatus([tickId, todoBlock]: [string, BlockEntity]) {
 async function syncTasks(tickTaskList: TickTask[]) {
     await Promise.all(
         tickTaskList
-            .filter((tickTask: TickTask) => !tickTask.parentId)
+            .filter((tickTask: TickTask) => !tickTask.parentId && tickTask.kind != 'NOTE')
             .map((tickTask: TickTask) => upsertTaskAndChildrenConcurrently(tickTask))
     ).then(async () => {
         await Promise.all(Array.from(rootTodosMap, syncTickTaskStatus))
@@ -287,13 +287,13 @@ async function syncTasks(tickTaskList: TickTask[]) {
 
 async function preSync() {
     console.log('同步开始---------------')
-    let toast:string,toast_success:string;
-    if(isConfigChinese){
-        toast='正在同步滴答清单，请稍等...'
-        toast_success='同步成功'
-    }else{
-        toast='Syncing TickTick, please wait...'
-        toast_success='Sync success'
+    let toast: string, toast_success: string;
+    if (isConfigChinese) {
+        toast = '正在同步滴答清单，请稍等...'
+        toast_success = '同步成功'
+    } else {
+        toast = 'Syncing TickTick, please wait...'
+        toast_success = 'Sync success'
     }
     isSyncing = true
     await logseq.UI.showMsg(toast, 'warning', {
@@ -306,7 +306,6 @@ async function preSync() {
             console.log('初始数据：')
             console.log('tickTasks: ', projects['syncTaskBean']['update'])
             console.log('rootTodosMap: ', rootTodosMap)
-            console.log('================================')
             initTags(projects)
             syncTasks(projects['syncTaskBean']['update']).then(() => {
                 console.log('同步结束---------------')
@@ -333,7 +332,10 @@ async function upsertTaskAndChildrenConcurrently(tickTask: TickTask, siblingBloc
         if (siblingBlocks) {
             block = await appendBlock(parentTodoBlockUuid!, tickTask, false)
         } else {
-            const formattedTime = convertAndFormatDate(tickTask.createdTime,preferredDateFormat)
+            const formattedTime = convertAndFormatDate(tickTask.createdTime, preferredDateFormat)
+            console.log('formattedTime:', formattedTime)
+            console.log('createdTime:', tickTask.createdTime)
+            console.log('preferredDateFormat:', preferredDateFormat)
             const page = await logseq.Editor.getPage(formattedTime) || (await logseq.Editor.createPage(formattedTime, '', {
                 redirect: false,
                 journal: true
