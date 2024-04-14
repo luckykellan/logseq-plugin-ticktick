@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.0.0...v1.0.1) (2024-04-12)
+
+
+### Bug Fixes
+
+* 修改同步提示信息，支持中英文，优化发布配置 ([c4f52b3](https://github.com/luckykellan/logseq-plugin-ticktick/commit/c4f52b39f62ef9549f3357416f5545e588ad5c1e))
+
 # 1.0.0 (2024-04-11)
 
 
