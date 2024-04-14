@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.0.1...v1.1.0) (2024-04-14)
+
+
+### Features
+
+* 兼容Logseq Preferred date format ([6f1678b](https://github.com/luckykellan/logseq-plugin-ticktick/commit/6f1678bbd8d9a1d7dd9aa7a85b42e73720f4ce79))
+
 ## [1.0.1](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.0.0...v1.0.1) (2024-04-12)
 
 
