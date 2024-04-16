@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.2.0...v1.2.1) (2024-04-16)
+
+
+### Bug Fixes
+
+* **settings:** 修复不设置同步快捷键产生报错的bug ([3c66cd1](https://github.com/luckykellan/logseq-plugin-ticktick/commit/3c66cd169eeade492feef58522ca8d2e53057c63))
+
 # [1.2.0](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.1.0...v1.2.0) (2024-04-14)
 
 
