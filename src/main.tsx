@@ -40,13 +40,16 @@ function main() {
     logseq.onSettingsChanged((newSettings, oldSettings) => {
         console.log('onSettingsChanged')
         //if (newSettings.syncKeybinding != oldSettings.syncKeybinding) {
-        // @ts-ignore
-        logseq.App.unregister_plugin_simple_command(`${logseq.baseInfo.id}`)
-        logseq.App.registerCommandPalette({
-            key: 'tick_sync_command',
-            label: 'Sync From Tick',
-            keybinding: {mode: 'global', binding: newSettings.syncKeybinding.toLowerCase()}
-        }, preSync)
+        if (newSettings.syncKeybinding) {
+            // @ts-ignore
+            logseq.App.unregister_plugin_simple_command(`${logseq.baseInfo.id}`)
+            logseq.App.registerCommandPalette({
+                key: 'tick_sync_command',
+                label: 'Sync From Tick',
+                keybinding: {mode: 'global', binding: newSettings.syncKeybinding.toLowerCase()}
+            }, preSync)
+        }
+
         if (!newSettings.accessToken || !newSettings.taskManagerProvider) {
             if (isConfigChinese) logseq.UI.showMsg('设置accessToken和taskManagerProvider后，ticktick才可正常同步', 'warning')
             else logseq.UI.showMsg('Please set accessToken and taskManagerProvider for TickTick sync.', 'warning')
