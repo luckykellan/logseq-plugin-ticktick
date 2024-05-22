@@ -13,11 +13,11 @@ export const todoBlockStatus: { [key: string]: string } = {
     '0': 'TODO'
 };
 const priorityMap: Record<string, number> = {
-    "high priority": 5,
+    "High Priority": 5,
     "高优先级": 5,
-    "medium priority": 3,
+    "Medium Priority": 3,
     "中优先级": 3,
-    "low priority": 1,
+    "Low Priority": 1,
     "低优先级": 1
 };
 const priorityMapping: Record<string, number> = {
@@ -160,7 +160,7 @@ export async function blockToTask(block: BlockEntity, parentId?: string, project
         task.repeatFlag = startData.repeater;
         task.repeatFrom = startData.repeater === undefined ? undefined : (startData.repeater.includes('YEARLY') ? '2' : '0');
     }
-    task.startDate = startData.time || moment.tz(task.timeZone).startOf('day').utc().format('YYYY-MM-DDTHH:mm:ss.000+0000');
+    //task.startDate = startData.time || moment.tz(task.timeZone).startOf('day').utc().format('YYYY-MM-DDTHH:mm:ss.000+0000');
     if (!startData.isAllDay && !task.reminder) {
         task.reminders = [{
             id: generateTickId(),
@@ -188,7 +188,7 @@ function generateTickId() {
     return timestamp + machineIdentifier.padStart(6, '0') + processIdentifier.padStart(4, '0') + counter;
 }
 
-export function isContentTodoPrefixed(content: string) {
+export function isContentTodoPrefixed(content?: string) {
     if (!content) return false
     return TODO_PREFIXES.some(prefix => content.startsWith(prefix));
 }

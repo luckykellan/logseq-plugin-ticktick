@@ -223,13 +223,17 @@ async function getLocalTODO() {
          :where
          [?b :block/marker ?m]
          [(contains? #{"TODO" "LATER" "NOW" "DONE" "DOING" "WAITING" "CANCELED"} ?m)]]`)
-    todoList.forEach((item: any) => {
+    for (const item of todoList) {
         if (item[0].content && item[0].content.includes("TICKID")) {
             const tickId = extractTickId(item[0].content)
             allTodosMap.set(item[0].id, tickId!)
             if (item[0].parent.id == item[0].page.id) rootTodosMap.set(tickId!, item[0])
+            else {
+                const parentBlock = await logseq.Editor.getBlock(item[0].parent.id)
+                if (!isContentTodoPrefixed(parentBlock?.content)) rootTodosMap.set(tickId!, item[0])
+            }
         }
-    });
+    }
     return rootTodosMap;
 }
 
@@ -336,9 +340,6 @@ async function upsertTaskAndChildrenConcurrently(tickTask: TickTask, siblingBloc
             block = await appendBlock(parentTodoBlockUuid!, tickTask, false)
         } else {
             const formattedTime = convertAndFormatDate(tickTask.createdTime, preferredDateFormat)
-            console.log('formattedTime:', formattedTime)
-            console.log('createdTime:', tickTask.createdTime)
-            console.log('preferredDateFormat:', preferredDateFormat)
             const page = await logseq.Editor.getPage(formattedTime) || (await logseq.Editor.createPage(formattedTime, '', {
                 redirect: false,
                 journal: true
