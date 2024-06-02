@@ -69,9 +69,9 @@ export function taskToBlockContent(task: TickTask, block?: BlockEntity) {
         });
         // 将剩余的标签重新组合成字符串
         tags += filteredTags.join(' ');
-        if (task.tags)
-            tags += task.tags.map(tag => ` #${tag}`).join(' ')
     }
+    if (task.tags)
+        tags += task.tags.map(tag => ` #${tag}`).join(' ')
 
     let scheduled = '', deadline = '', repeater, logbook
     const getMomentInTimeZone = (dateStr: string, timeZone: string) => moment(dateStr).tz(timeZone);
