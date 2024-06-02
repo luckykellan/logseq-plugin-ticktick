@@ -1,3 +1,11 @@
+## [1.2.3](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.2.2...v1.2.3) (2024-06-02)
+
+
+### Bug Fixes
+
+* ensure priority synchronization with Logseq native format, e.g., [#A] ([e80def3](https://github.com/luckykellan/logseq-plugin-ticktick/commit/e80def35b5ac6dda69bebd832053453057e7a9d2)), closes [#9](https://github.com/luckykellan/logseq-plugin-ticktick/issues/9)
+* resolve issue where new tasks synced from TickTick to Logseq for the first time lose tags ([c17eb06](https://github.com/luckykellan/logseq-plugin-ticktick/commit/c17eb065ad2297eaecce678c137aff44047f02de))
+
 ## [1.2.2](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.2.1...v1.2.2) (2024-05-22)
 
 
