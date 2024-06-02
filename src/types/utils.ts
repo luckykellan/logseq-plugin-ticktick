@@ -23,7 +23,11 @@ const priorityMap: Record<string, number> = {
 const priorityMapping: Record<string, number> = {
     "A": 5,
     "B": 3,
-    "C": 1
+    "C": 1,
+    "A]": 5,
+    "B]": 3,
+    "C]": 1,
+
 }
 
 export function setPriorityMapping(settings: string) {
@@ -203,7 +207,7 @@ function extractSubBlockType(text: string) {
 export function extractContent(text: string) {
     const cleanedText = text
         .replace(/^[A-Z]+\s+/m, "") // 去除状态前缀
-        .replace(/#[^\s]+/g, "") // 去除#标签
+        .replace(/\[?#\S+/g, "") // 去除#标签，包括前面可能存在的[，如[#A]
         .replace(/(DEADLINE:|SCHEDULED:).+?>/g, "") // 去除DEADLINE:和SCHEDULED:及其后的日期时间
         .replace(/\n:LOGBOOK:([\s\S]*?):END:/g, "")
         .trim();
