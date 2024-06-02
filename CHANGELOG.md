@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.2.1...v1.2.2) (2024-05-22)
+
+
+### Bug Fixes
+
+* 修复自定义优先级设置不生效的问题 ([d40e428](https://github.com/luckykellan/logseq-plugin-ticktick/commit/d40e428781ab92a691607f3307258e551cfc1182))
+
 ## [1.2.1](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.2.0...v1.2.1) (2024-04-16)
 
 
