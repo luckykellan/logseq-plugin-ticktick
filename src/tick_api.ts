@@ -65,7 +65,7 @@ export async function getTask(id: string): Promise<TickTask> {
         });
         return data.data;
     } catch (error: any) {
-        if (error.response && error.response.data && error.response.data.errorCode === "task_not_found") {
+        if (error.response.data.errorCode === "task_not_found") {
             throw new Error("Task not found error");
         } else {
             throw error;
