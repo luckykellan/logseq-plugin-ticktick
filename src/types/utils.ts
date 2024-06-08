@@ -208,6 +208,7 @@ export function extractContent(text: string) {
     const cleanedText = text
         .replace(/^[A-Z]+\s+/m, "") // 去除状态前缀
         .replace(/\[?#\S+/g, "") // 去除#标签，包括前面可能存在的[，如[#A]
+        .replace(/^id::.+/m, "") // 去除以id::开头的行
         .replace(/(DEADLINE:|SCHEDULED:).+?>/g, "") // 去除DEADLINE:和SCHEDULED:及其后的日期时间
         .replace(/\n:LOGBOOK:([\s\S]*?):END:/g, "")
         .trim();

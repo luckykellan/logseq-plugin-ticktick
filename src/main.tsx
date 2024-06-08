@@ -67,7 +67,7 @@ function main() {
         if (e.txMeta?.outlinerOp) { // deleteBlocks||insertBlocks||saveBlock
             const block = e.blocks[0]
             if (block) {
-                console.log(e.txMeta?.outlinerOp, block.content)
+                console.log(e.txMeta?.outlinerOp, block)
                 const outlinerOp = e.txMeta?.outlinerOp
                 if (outlinerOp == 'insert-blocks') {
                     // 兜底操作，避免如果输入不间断，并在输入完后立即回车，会无法触发save-block直接到insert-blocks，导致没有执行upsertBlockIdSet.add进而无法同步到ticktick
