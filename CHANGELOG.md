@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.2.3...v1.3.0) (2024-06-10)
+
+
+### Bug Fixes
+
+* correct inability to delete Logseq tasks when corresponding TickTick tasks are absent ([51a2b3d](https://github.com/luckykellan/logseq-plugin-ticktick/commit/51a2b3d5d81a78703cef1ca5d2bcf0f3ac5ab898))
+* **extractContent:** remove id prefix from text lines ([e845f98](https://github.com/luckykellan/logseq-plugin-ticktick/commit/e845f983c0f6f313a3c5e09239a77db8b26f7209))
+* Filter out empty sub-blocks ([5e22df6](https://github.com/luckykellan/logseq-plugin-ticktick/commit/5e22df69386665d1bd6b031da201a4c66b09aaec))
+
+
+### Features
+
+* Add handling for referenced TODOs ([7cd22c4](https://github.com/luckykellan/logseq-plugin-ticktick/commit/7cd22c4503a2151b51a12778a8022d95078a11dd))
+
 ## [1.2.3](https://github.com/luckykellan/logseq-plugin-ticktick/compare/v1.2.2...v1.2.3) (2024-06-02)
 
 
