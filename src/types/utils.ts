@@ -113,8 +113,25 @@ export async function blockToTask(block: BlockEntity, parentId?: string, project
     task.content = ''
     task.desc = ''
     task.items = []
-    if (block.children) {
-        block.children.forEach((child: any) => {
+    const childrenBlocks: any = []
+    if ((block as any).propertiesOrder) {
+        const refBlocks = await logseq.DB.datascriptQuery(`
+             [:find ?b
+             :where
+             [?b :block/content "((${block.uuid}))"]]
+        `)
+        if (refBlocks.length > 0) {
+            for (const refBlockId of refBlocks) {
+                const refBlock = (await logseq.Editor.getBlock(refBlockId[0], {includeChildren: true}))!
+                if (refBlock.children) {
+                    childrenBlocks.push(...refBlock!.children)
+                }
+            }
+        }
+    }
+    if (block.children) childrenBlocks.push(...block.children)
+    if (childrenBlocks.length > 0) {
+        childrenBlocks.forEach((child: any) => {
             if (!isContentTodoPrefixed(child.content))
                 extractSubBlockType(child.content) == 'ITEM' ? task.items.push(child.content) : task.content += child.content + '\n'
         })
@@ -123,6 +140,18 @@ export async function blockToTask(block: BlockEntity, parentId?: string, project
             task.content = ''
         }
     }
+
+    // if (block.children) {
+    //     block.children.forEach((child: any) => {
+    //         if (!isContentTodoPrefixed(child.content))
+    //             extractSubBlockType(child.content) == 'ITEM' ? task.items.push(child.content) : task.content += child.content + '\n'
+    //     })
+    //     if (task.items.length > 0) {
+    //         task.desc = task.content
+    //         task.content = ''
+    //     }
+    // }
+
     const blockContent = block.content
     task.title = extractContent(blockContent)
     task.modifiedTime = moment().tz(timeZone)

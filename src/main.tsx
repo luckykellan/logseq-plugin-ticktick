@@ -1,19 +1,17 @@
 import "@logseq/libs";
 import "./index.css";
-import moment from "moment-timezone";
-import {
-    commitTask,
-    getAllProjects, getTask, setHostIp, setTickToken
-} from "./tick_api";
+import {commitTask, getAllProjects, getTask, setHostIp, setTickToken} from "./tick_api";
 import {BlockEntity,} from "@logseq/libs/dist/LSPlugin";
 import {
-    isContentTodoPrefixed,
-    tickTags,
     blockToTask,
-    taskToBlockContent,
+    convertAndFormatDate,
     idToProjectsKeyIndex,
+    isContentTodoPrefixed,
+    setPriorityMapping,
+    taskToBlockContent,
+    tickTags,
     TODO_PREFIXES,
-    todoBlockStatus, setPriorityMapping, convertAndFormatDate
+    todoBlockStatus
 } from "./types/utils"
 import {createTickRequest, TickRequest, TickTask, TickTaskDeletion} from "./types";
 import {cn_schema, en_schema} from "./settings";
@@ -84,7 +82,6 @@ function main() {
                         deleteBlockMap.clear()
                     }
                 } else {
-                    const parentTickId = allTodosMap.get(block.parent.id)
                     if (isContentTodoPrefixed(block.content)) {
                         if (outlinerOp == 'save-block') {
                             upsertBlockIdSet.add(block.id)
@@ -97,13 +94,24 @@ function main() {
                                     projectId: extractProjectId(block.content)
                                 })
                         }
-                    } else if (!isInputMatchingTodoPrefix(block.content) && parentTickId) {
-                        upsertBlockIdSet.add(block.parent.id)
+                    } else if (!isInputMatchingTodoPrefix(block.content)) {
+                        const parentTickId = allTodosMap.get(block.parent.id)
+                        const refParentTickId = findParentIdByBlockRef(block)
+                        if (parentTickId) upsertBlockIdSet.add(block.parent.id)
+                        else if (refParentTickId) {
+                            upsertBlockIdSet.add(refParentTickId)
+                        }
                     }
                 }
             }
         }
     })
+}
+
+function findParentIdByBlockRef(block: any) {
+    const pathRefs: { id: number }[] = block.pathRefs || [];
+    // 使用 find 方法直接返回符合条件的第一个 ID
+    return pathRefs.find(pathRef => allTodosMap.has(pathRef.id))?.id;
 }
 
 function isInputMatchingTodoPrefix(input: string) {
@@ -121,10 +129,14 @@ function isInputMatchingTodoPrefix(input: string) {
 async function dealBlock(blockId: number) {
     const block = await logseq.Editor.getBlock(blockId, {includeChildren: true})
     if (!block) return
-    const parentTickId = allTodosMap.get(block.parent.id)
+    let parentTickId = allTodosMap.get(block.parent.id)
+    if (!parentTickId) {
+        const refparentId = findParentIdByBlockRef(block)
+        if (refparentId) parentTickId = allTodosMap.get(refparentId)
+    }
     let projectId = ''
     if (parentTickId) {
-        const parentBlock = (await logseq.Editor.getBlock(blockId))!
+        const parentBlock = (await logseq.Editor.getBlock(block.parent.id))!
         projectId = extractProjectId(parentBlock.content)
     }
     let task
