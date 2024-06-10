@@ -132,7 +132,7 @@ export async function blockToTask(block: BlockEntity, parentId?: string, project
     if (block.children) childrenBlocks.push(...block.children)
     if (childrenBlocks.length > 0) {
         childrenBlocks.forEach((child: any) => {
-            if (!isContentTodoPrefixed(child.content))
+            if (child.content && !isContentTodoPrefixed(child.content))
                 extractSubBlockType(child.content) == 'ITEM' ? task.items.push(child.content) : task.content += child.content + '\n'
         })
         if (task.items.length > 0) {
